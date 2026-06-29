@@ -59,3 +59,7 @@ Pure HTML + CSS + vanilla JS. Google Fonts ([Space Grotesk](https://fonts.google
 ---
 
 *personal collection, shared with ✦*
+
+## Accessible via webapp
+
+*https://zaerivi.github.io/Zaeri-Acad-Drive*
