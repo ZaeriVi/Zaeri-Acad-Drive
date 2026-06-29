@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zaeri's Acad Drive</title>
+<link rel="icon" type="image/png" href="icon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #080F22;
+    --navy-mid: #0E1A3A;
+    --blue: #4A7FD4;
+    --blue-bright: #5A8FE0;
+    --sky: #7AAFD6;
+    --sky-pale: #1E3050;
+    --bg: #0C1220;
+    --bg-mid: #111827;
+    --bg-card: #141E30;
+    --bg-card-hover: #192540;
+    --text: #C8D8F0;
+    --text-muted: #7A92B0;
+    --text-light: #4A6080;
+    --border: #1E2E48;
+    --border-soft: #182038;
+    --eee-accent: #4A7FD4;
+    --coe-accent: #8B6FD4;
+    --ece-accent: #3EA8C8;
+    --ee-accent: #3AAA7A;
+    --math-accent: #C89040;
+    --phys-accent: #C85050;
+    --es-accent: #9060C0;
+    --other-accent: #506070;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 340px;
+    display: flex;
+    align-items: center;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('pic-3.jpg') center center / cover no-repeat;
+    z-index: 0;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      rgba(8, 20, 55, 0.88) 0%,
+      rgba(10, 30, 80, 0.76) 45%,
+      rgba(15, 40, 100, 0.58) 100%
+    );
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .hero-text { flex: 1; min-width: 0; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(59,130,246,.22);
+    border: 1px solid rgba(147,197,253,.3);
+    color: var(--sky);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1.0;
+    letter-spacing: -.02em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .hero-sub {
+    color: rgba(200, 220, 255, 0.75);
+    font-size: .88rem;
+    margin-bottom: 26px;
+    max-width: 400px;
+    line-height: 1.6;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue-bright);
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: .88rem;
+    padding: 10px 20px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+    box-shadow: 0 4px 14px rgba(37,99,235,.45);
+  }
+  .hero-cta:hover { background: #1D4ED8; transform: translateY(-1px); }
+  .hero-cta svg { width: 15px; height: 15px; }
+
+  /* pic-1 floating in hero right side — with shadow */
+  @keyframes hero-float {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-14px); }
+    100% { transform: translateY(0px); }
+  }
+  .hero-pic1-wrap {
+    flex-shrink: 0;
+    width: clamp(180px, 26vw, 320px);
+    animation: hero-float 5s ease-in-out infinite;
+    filter:
+      drop-shadow(0 8px 24px rgba(0, 30, 80, 0.7))
+      drop-shadow(0 24px 48px rgba(0, 0, 0, 0.65))
+      drop-shadow(0 2px 8px rgba(74, 127, 212, 0.25));
+  }
+  .hero-pic1-wrap img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ── NAV TABS (centered) ── */
+  .tabs-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(12,18,32,.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0 16px;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 12px 14px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s, background .15s;
+    white-space: nowrap;
+    text-decoration: none;
+    display: block;
+    border-radius: 6px 6px 0 0;
+    letter-spacing: .01em;
+  }
+  .tab:hover { color: var(--blue); background: rgba(74, 127, 212, 0.06); }
+  .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+  /* ── MAIN CONTENT ── */
+  .main { max-width: 900px; margin: 0 auto; padding: 36px 20px 72px; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 48px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-icon {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .section-title-wrap {}
+  .section-label {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  /* ── SUB-GROUPS: collapsible ── */
+  .subgroup { margin-bottom: 6px; }
+  .subgroup-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 0;
+    text-align: left;
+    color: inherit;
+    font-family: inherit;
+  }
+  .subgroup-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .subgroup-toggle:hover .subgroup-label { color: var(--text); }
+  .subgroup-count {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: .68rem;
+    font-weight: 600;
+    background: var(--border-soft);
+    color: var(--text-light);
+    border-radius: 100px;
+    padding: 1px 7px;
+    letter-spacing: 0;
+  }
+  .subgroup-chevron {
+    margin-left: auto;
+    color: var(--text-light);
+    font-size: .7rem;
+    transition: transform .2s;
+  }
+  .subgroup.open .subgroup-chevron { transform: rotate(180deg); }
+  .subgroup-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .3s ease, padding .2s;
+  }
+  .subgroup.open .subgroup-body {
+    max-height: 800px;
+    padding-bottom: 14px;
+  }
+
+  /* ── COURSE GRID ── */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 8px;
+    padding-top: 6px;
+  }
+
+  /* ── COURSE CARD ── */
+  .course-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 13px 15px 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    transition: border-color .18s, box-shadow .18s, transform .15s, background .18s;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+  .course-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent, var(--blue));
+    border-radius: 3px 0 0 3px;
+    opacity: 0;
+    transition: opacity .18s;
+  }
+  /* Uploaded cards: always show a subtle left bar and full opacity */
+  .course-card.uploaded::before { opacity: 0.5; }
+  .course-card.uploaded { opacity: 1; }
+
+  .course-card:not(.pending):hover,
+  .course-card.uploaded:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent, var(--blue));
+    box-shadow: 0 4px 18px rgba(0,0,0,.38);
+    transform: translateY(-2px);
+  }
+  .course-card:not(.pending):hover::before,
+  .course-card.uploaded:hover::before { opacity: 1; }
+
+  /* Pending: dimmer, no hover interaction */
+  .course-card.pending:not(.uploaded) {
+    opacity: .5;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .course-code {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--accent, var(--blue));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .link-icon {
+    opacity: 0;
+    font-size: .75rem;
+    transition: opacity .18s;
+    background: var(--accent, var(--blue));
+    color: #fff;
+    border-radius: 4px;
+    width: 18px; height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .course-card:hover .link-icon { opacity: 1; }
+  .course-name {
+    font-size: .77rem;
+    color: var(--text-muted);
+    line-height: 1.38;
+  }
+  .status-badge {
+    display: inline-block;
+    font-size: .6rem;
+    font-weight: 700;
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-top: 3px;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+  .status-badge.uploaded {
+    background: rgba(58, 170, 122, 0.12);
+    border: 1px solid rgba(58, 170, 122, 0.3);
+    color: #3AAA7A;
+  }
+  .status-badge.pending {
+    background: #0A1220;
+    border: 1px solid var(--border);
+    color: var(--text-light);
+  }
+
+  /* ── MORE CARDS ── */
+  .more-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .more-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color .18s, box-shadow .18s, transform .15s, background .18s;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+  .more-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--blue-bright);
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+    transform: translateY(-2px);
+  }
+  .more-card-icon {
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+  }
+  .more-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: .9rem;
+    color: var(--text);
+  }
+  .more-card-desc {
+    font-size: .76rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    flex: 1;
+  }
+  .more-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: .76rem;
+    font-weight: 700;
+    color: var(--blue);
+    text-decoration: none;
+    margin-top: 6px;
+    padding: 5px 10px;
+    background: rgba(74, 127, 212, 0.1);
+    border: 1px solid rgba(74, 127, 212, 0.2);
+    border-radius: 6px;
+    transition: background .15s, border-color .15s;
+    width: fit-content;
+  }
+  .more-card-link:hover { background: rgba(74, 127, 212, 0.2); border-color: var(--blue); }
+  .more-card-link svg { width: 11px; height: 11px; }
+
+  /* ── CONTRIBUTE BANNER ── */
+  .contribute {
+    background: linear-gradient(135deg, #080F22 0%, #0E1A3A 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .contribute-text { flex: 1; min-width: 200px; }
+  .contribute-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+  }
+  .contribute-sub {
+    font-size: .82rem;
+    color: rgba(186,214,255,.75);
+    line-height: 1.5;
+  }
+  .contribute-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--blue-bright);
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: .85rem;
+    padding: 11px 20px;
+    border-radius: 100px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s, transform .15s;
+    box-shadow: 0 4px 14px rgba(37,99,235,.4);
+  }
+  .contribute-btn:hover { background: #1D4ED8; transform: translateY(-1px); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border-soft);
+    margin: 32px 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 24px 20px;
+    border-top: 1px solid var(--border-soft);
+    font-size: .75rem;
+    color: var(--text-light);
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* accent color classes */
+  .a-eee { --accent: var(--eee-accent); }
+  .a-coe { --accent: var(--coe-accent); }
+  .a-ece { --accent: var(--ece-accent); }
+  .a-ee  { --accent: var(--ee-accent); }
+  .a-math { --accent: var(--math-accent); }
+  .a-phys { --accent: var(--phys-accent); }
+  .a-es  { --accent: var(--es-accent); }
+  .a-other { --accent: var(--other-accent); }
+
+  .icon-bg-eee { background: #12213A; color: #4A7FD4; }
+  .icon-bg-coe { background: #1A1535; color: #8B6FD4; }
+  .icon-bg-ece { background: #0E2030; color: #3EA8C8; }
+  .icon-bg-ee  { background: #0E2020; color: #3AAA7A; }
+  .icon-bg-math { background: #251A0A; color: #C89040; }
+  .icon-bg-other { background: #141E28; color: #506070; }
+
+  /* z-index stacking */
+  .tabs-wrap { z-index: 100; }
+  .main { position: relative; z-index: 1; }
+  header.hero { position: relative; z-index: 1; }
+
+  @media (max-width: 700px) {
+    .hero-inner { flex-direction: column; padding: 40px 20px; text-align: center; }
+    .hero h1 { font-size: clamp(2.2rem, 10vw, 3rem); }
+    .hero-sub { max-width: 100%; }
+    .hero-pic1-wrap { width: clamp(130px, 52vw, 200px); }
+    .main { padding: 24px 14px 56px; }
+    .contribute { padding: 20px 16px; }
+    .course-grid { grid-template-columns: 1fr; }
+    .more-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-pic1-wrap { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">✦ Personal Collection</div>
+      <h1>Zaeri's<br>Acad Drive.</h1>
+      <p class="hero-sub">A curated collection of academic resources for eriza's friends and the EEE family — collected and shared for everyone to use freely.</p>
+      <a href="https://drive.google.com/drive/folders/1OJRidaGIRTspHsBGA-OoABWwGd_r76X7?usp=drive_link" target="_blank" class="hero-cta">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1v14M1 8h14" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        Contribute a resource
+      </a>
+    </div>
+    <div class="hero-pic1-wrap">
+      <img src="pic-1.png" alt=""/>
+    </div>
+  </div>
+</header>
+
+<!-- STICKY NAV TABS — centered -->
+<nav class="tabs-wrap">
+  <div class="tabs">
+    <a class="tab active" href="#eee-fund">EEE Fundamentals</a>
+    <a class="tab" href="#coe">CoE Major</a>
+    <a class="tab" href="#ece">ECE Major</a>
+    <a class="tab" href="#ee">EE Major</a>
+    <a class="tab" href="#math">Math & Physics</a>
+    <a class="tab" href="#more">More</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ───────────────── EEE FUNDAMENTALS ───────────────── -->
+  <section class="section" id="eee-fund">
+    <div class="section-header">
+      <div class="section-icon icon-bg-eee">⚡</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section 01</div>
+        <div class="section-title">EEE Fundamentals</div>
+      </div>
+    </div>
+
+    <!-- EEE 11x -->
+    <div class="subgroup open">
+      <button class="subgroup-toggle" aria-expanded="true">
+        <span class="subgroup-label">EEE 11x</span>
+        <span class="subgroup-count">3 courses</span>
+        <span class="subgroup-chevron">▾</span>
+      </button>
+      <div class="subgroup-body">
+        <div class="course-grid">
+          <a href="https://drive.google.com/drive/folders/1vLi4X4uoSb1if55reKk3sESuxnDk_oLQ?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
+            <div class="course-code">EEE 111 <span class="link-icon">↗</span></div>
+            <div class="course-name">Introduction to Programming and Computation</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="https://drive.google.com/drive/folders/1lG0IBKnXU2SaFoYmeo1SRPnDQUCPeT4l?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
+            <div class="course-code">EEE 113 <span class="link-icon">↗</span></div>
+            <div class="course-name">Introduction to Electrical and Electronics Engineering Systems</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 118 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electrical and Electronics Engineering Laboratory I</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- EEE 12x -->
+    <div class="subgroup open">
+      <button class="subgroup-toggle" aria-expanded="true">
+        <span class="subgroup-label">EEE 12x</span>
+        <span class="subgroup-count">3 courses</span>
+        <span class="subgroup-chevron">▾</span>
+      </button>
+      <div class="subgroup-body">
+        <div class="course-grid">
+          <a href="https://drive.google.com/drive/folders/1Kv16kkzZYbuHUyIm9yQYE9yUPAqsI0VR?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
+            <div class="course-code">EEE 121 <span class="link-icon">↗</span></div>
+            <div class="course-name">Data Structures and Algorithms for EEE</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="https://drive.google.com/drive/folders/1XRbkcdBGgXCmTB0RiAONAeJ6NBr5c3oS?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
+            <div class="course-code">EEE 123 <span class="link-icon">↗</span></div>
+            <div class="course-name">Circuits and Electronics I</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 128 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electrical and Electronics Engineering Laboratory II</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- EEE 13x -->
+    <div class="subgroup">
+      <button class="subgroup-toggle" aria-expanded="false">
+        <span class="subgroup-label">EEE 13x</span>
+        <span class="subgroup-count">5 courses</span>
+        <span class="subgroup-chevron">▾</span>
+      </button>
+      <div class="subgroup-body">
+        <div class="course-grid">
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 131 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electronic Devices and Circuits</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 133 <span class="link-icon">↗</span></div>
+            <div class="course-name">Circuits and Electronics II</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 135 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electromagnetic Fields I</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 137 <span class="link-icon">↗</span></div>
+            <div class="course-name">Probability, Statistics and Random Processes in EEE</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 138 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electrical and Electronics Engineering Laboratory III</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- EEE 14x -->
+    <div class="subgroup">
+      <button class="subgroup-toggle" aria-expanded="false">
+        <span class="subgroup-label">EEE 14x</span>
+        <span class="subgroup-count">5 courses</span>
+        <span class="subgroup-chevron">▾</span>
+      </button>
+      <div class="subgroup-body">
+        <div class="course-grid">
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 141 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electronic Circuits and Systems</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 143 <span class="link-icon">↗</span></div>
+            <div class="course-name">Switching Theory and Digital Logic Design</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 145 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electromechanical Energy Converters</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 147 <span class="link-icon">↗</span></div>
+            <div class="course-name">Signals and Systems</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 148 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electrical and Electronics Engineering Laboratory IV</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- EEE 15x -->
+    <div class="subgroup">
+      <button class="subgroup-toggle" aria-expanded="false">
+        <span class="subgroup-label">EEE 15x</span>
+        <span class="subgroup-count">5 courses</span>
+        <span class="subgroup-chevron">▾</span>
+      </button>
+      <div class="subgroup-body">
+        <div class="course-grid">
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 151 <span class="link-icon">↗</span></div>
+            <div class="course-name">Analog and Digital Control</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 153 <span class="link-icon">↗</span></div>
+            <div class="course-name">Computer Organization and Embedded Systems I</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 155 <span class="link-icon">↗</span></div>
+            <div class="course-name">Introduction to Electric Power Systems</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 157 <span class="link-icon">↗</span></div>
+            <div class="course-name">Communication Systems and Networks</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
+            <div class="course-code">EEE 158 <span class="link-icon">↗</span></div>
+            <div class="course-name">Electrical and Electronics Engineering Laboratory V</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ───────────────── CoE MAJOR ───────────────── -->
+  <section class="section" id="coe">
+    <div class="section-header">
+      <div class="section-icon icon-bg-coe">💻</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section 02</div>
+        <div class="section-title">Computer Engineering Major</div>
+      </div>
+    </div>
+    <div class="course-grid">
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
+        <div class="course-code">CoE 161 <span class="link-icon">↗</span></div>
+        <div class="course-name">Introduction to Information and Complexity</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
+        <div class="course-code">CoE 163 <span class="link-icon">↗</span></div>
+        <div class="course-name">Computing Architectures and Algorithms</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
+        <div class="course-code">CoE 164 <span class="link-icon">↗</span></div>
+        <div class="course-name">Computing Platforms</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
+        <div class="course-code">CoE 165 <span class="link-icon">↗</span></div>
+        <div class="course-name">Computer Organization and Embedded Systems II</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
+        <div class="course-code">CoE 167 <span class="link-icon">↗</span></div>
+        <div class="course-name">Computing Systems</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
+        <div class="course-code">CoE 168 <span class="link-icon">↗</span></div>
+        <div class="course-name">Computing Solutions for Contemporary Issues</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ───────────────── ECE MAJOR ───────────────── -->
+  <section class="section" id="ece">
+    <div class="section-header">
+      <div class="section-icon icon-bg-ece">📡</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section 03</div>
+        <div class="section-title">Electronics & Communications Engineering Major</div>
+      </div>
+    </div>
+    <div class="course-grid">
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
+        <div class="course-code">ECE 161 <span class="link-icon">↗</span></div>
+        <div class="course-name">Digital Signal Processing</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
+        <div class="course-code">ECE 163 <span class="link-icon">↗</span></div>
+        <div class="course-name">Communication Electronics</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
+        <div class="course-code">ECE 164 <span class="link-icon">↗</span></div>
+        <div class="course-name">Communication Circuits and Signal Processing Laboratory</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
+        <div class="course-code">ECE 165 <span class="link-icon">↗</span></div>
+        <div class="course-name">Digital Communication Systems</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
+        <div class="course-code">ECE 167 <span class="link-icon">↗</span></div>
+        <div class="course-name">Computer Networks</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
+        <div class="course-code">ECE 168 <span class="link-icon">↗</span></div>
+        <div class="course-name">Network Communications Laboratory</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ───────────────── EE MAJOR ───────────────── -->
+  <section class="section" id="ee">
+    <div class="section-header">
+      <div class="section-icon icon-bg-ee">🔌</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section 04</div>
+        <div class="section-title">Electrical Engineering Major</div>
+      </div>
+    </div>
+    <div class="course-grid">
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
+        <div class="course-code">EE 161 <span class="link-icon">↗</span></div>
+        <div class="course-name">Introduction to Power Electronics</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
+        <div class="course-code">EE 163 <span class="link-icon">↗</span></div>
+        <div class="course-name">Electrical Machines and Equipment</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
+        <div class="course-code">EE 164 <span class="link-icon">↗</span></div>
+        <div class="course-name">Power Electronics and Electric Machines Laboratory</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
+        <div class="course-code">EE 165 <span class="link-icon">↗</span></div>
+        <div class="course-name">Electric Power Generation and Transmission</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
+        <div class="course-code">EE 167 <span class="link-icon">↗</span></div>
+        <div class="course-name">Electric Energy Distribution and Utilization</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
+        <div class="course-code">EE 168 <span class="link-icon">↗</span></div>
+        <div class="course-name">Electric Power System Laboratory</div>
+        <span class="status-badge pending">link pending</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ───────────────── MATH, PHYSICS & ENGINEERING ───────────────── -->
+  <section class="section" id="math">
+    <div class="section-header">
+      <div class="section-icon icon-bg-math">📐</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section 05</div>
+        <div class="section-title">Math, Physics & Engineering Sciences</div>
+      </div>
+    </div>
+
+    <div class="subgroup open">
+      <button class="subgroup-toggle" aria-expanded="true">
+        <span class="subgroup-label">Mathematics</span>
+        <span class="subgroup-count">4 courses</span>
+        <span class="subgroup-chevron">▾</span>
+      </button>
+      <div class="subgroup-body">
+        <div class="course-grid">
+          <a href="https://drive.google.com/drive/folders/1F4uyusRFpJhbPV-oQ1PgqhRzA10xPoqD?usp=drive_link" target="_blank" class="course-card a-math uploaded">
+            <div class="course-code">Math 21 <span class="link-icon">↗</span></div>
+            <div class="course-name">Elementary Analysis I</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="https://drive.google.com/drive/folders/1RZ3doLKx2Yk2l32lAw0tp0286M-twHI_?usp=drive_link" target="_blank" class="course-card a-math uploaded">
+            <div class="course-code">Math 22 <span class="link-icon">↗</span></div>
+            <div class="course-name">Elementary Analysis II</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="https://drive.google.com/drive/folders/14muG1ai3nXY8UFPYrCdjK8gpBzrEVKEw" target="_blank" class="course-card a-math uploaded">
+            <div class="course-code">Math 23 <span class="link-icon">↗</span></div>
+            <div class="course-name">Elementary Analysis III</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-math pending">
+            <div class="course-code">Math 40 <span class="link-icon">↗</span></div>
+            <div class="course-name">Linear Algebra</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="subgroup open">
+      <button class="subgroup-toggle" aria-expanded="true">
+        <span class="subgroup-label">Physics</span>
+        <span class="subgroup-count">3 courses</span>
+        <span class="subgroup-chevron">▾</span>
+      </button>
+      <div class="subgroup-body">
+        <div class="course-grid">
+          <a href="https://drive.google.com/drive/folders/1nlUZx4_5v--02hSrMsr8PzsoaN3HGncP?usp=drive_link" target="_blank" class="course-card a-phys uploaded">
+            <div class="course-code">Physics 71 <span class="link-icon">↗</span></div>
+            <div class="course-name">Elementary Physics I</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="https://drive.google.com/drive/folders/1dOZPDwBJ_bptW1mcl7z3Aq0qrvuvivP-?usp=drive_link" target="_blank" class="course-card a-phys uploaded">
+            <div class="course-code">Physics 72 <span class="link-icon">↗</span></div>
+            <div class="course-name">Elementary Physics II</div>
+            <span class="status-badge uploaded">link uploaded</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-phys pending">
+            <div class="course-code">Physics 73 <span class="link-icon">↗</span></div>
+            <div class="course-name">Elementary Physics III</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="subgroup">
+      <button class="subgroup-toggle" aria-expanded="false">
+        <span class="subgroup-label">Engineering Sciences & Others</span>
+        <span class="subgroup-count">4 courses</span>
+        <span class="subgroup-chevron">▾</span>
+      </button>
+      <div class="subgroup-body">
+        <div class="course-grid">
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-es pending">
+            <div class="course-code">ES 101 <span class="link-icon">↗</span></div>
+            <div class="course-name">Mechanics of Particles and Rigid Bodies</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-es pending">
+            <div class="course-code">ES 102 <span class="link-icon">↗</span></div>
+            <div class="course-name">Mechanics of Deformable Bodies</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-other pending">
+            <div class="course-code">CE 22 <span class="link-icon">↗</span></div>
+            <div class="course-name">Introduction to Programming and Computation</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-other pending">
+            <div class="course-code">ME 63 <span class="link-icon">↗</span></div>
+            <div class="course-name">Introduction to Electrical and Electronics Engineering Systems</div>
+            <span class="status-badge pending">link pending</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ───────────────── MORE ───────────────── -->
+  <section class="section" id="more">
+    <div class="section-header">
+      <div class="section-icon icon-bg-other">📦</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section 06</div>
+        <div class="section-title">More Resources</div>
+      </div>
+    </div>
+    <div class="more-grid">
+      <div class="more-card">
+        <div class="more-card-icon">📚</div>
+        <div class="more-card-title">EEE Electives</div>
+        <div class="more-card-desc">Resources for EEE elective courses and specialized topics.</div>
+        <a href="YOUR_LINK_HERE" target="_blank" class="more-card-link">
+          Open folder
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="more-card">
+        <div class="more-card-icon">🗂️</div>
+        <div class="more-card-title">Old Curriculum</div>
+        <div class="more-card-desc">Academic sources from the previous curriculum, still useful as reference.</div>
+        <a href="YOUR_LINK_HERE" target="_blank" class="more-card-link">
+          Open folder
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="more-card">
+        <div class="more-card-icon">📖</div>
+        <div class="more-card-title">E-Books</div>
+        <div class="more-card-desc">A spreadsheet of reference e-books for studying across all majors.</div>
+        <a href="https://drive.google.com/drive/folders/1F_D50RNUQqcWkrP-Kjg0qUBmozFWJyfN?usp=drive_link" target="_blank" class="more-card-link">
+          Open sheet
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="more-card">
+        <div class="more-card-icon">🌐</div>
+        <div class="more-card-title">GE Courses</div>
+        <div class="more-card-desc">Resources for General Education courses — Kas, STS, PI, and the rest.</div>
+        <a href="https://drive.google.com/drive/folders/1v1ENi99i7BHeR9hatKtb_tiAIYsZ2AXp?usp=drive_link" target="_blank" class="more-card-link">
+          Open folder
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="more-card">
+        <div class="more-card-icon">🎲</div>
+        <div class="more-card-title">Free Electives</div>
+        <div class="more-card-desc">Resources for free elective courses taken outside the major curriculum.</div>
+        <a href="YOUR_LINK_HERE" target="_blank" class="more-card-link">
+          Open folder
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="more-card">
+        <div class="more-card-icon">➕</div>
+        <div class="more-card-title">Add Your Own</div>
+        <div class="more-card-desc">Got another category to add? Drop a link and I'll include it here.</div>
+        <a href="https://drive.google.com/drive/folders/1OJRidaGIRTspHsBGA-OoABWwGd_r76X7?usp=drive_link" target="_blank" class="more-card-link">
+          Suggest it
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTRIBUTE BANNER -->
+  <div class="contribute">
+    <div class="contribute-text">
+      <div class="contribute-title">Want to contribute?</div>
+      <div class="contribute-sub">Got reviewers, past exams, notes, or other resources? Share them here and help your fellow students out. ✦</div>
+    </div>
+    <a href="https://drive.google.com/drive/folders/1OJRidaGIRTspHsBGA-OoABWwGd_r76X7?usp=drive_link" target="_blank" class="contribute-btn">
+      Submit a resource →
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  <p>Zaeri's Acad Drive &nbsp;·&nbsp; personal collection, shared with ✦ &nbsp;·&nbsp; <a href="https://www.upcircuit.org/acad-drive" target="_blank">inspired by UP Circuit</a></p>
+</footer>
+
+<script>
+  // Active tab highlighting on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const tabs = document.querySelectorAll('.tab');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tabs.forEach(t => {
+          t.classList.toggle('active', t.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Disable pending (non-uploaded) card clicks
+  document.querySelectorAll('.course-card.pending:not(.uploaded)').forEach(card => {
+    card.addEventListener('click', e => e.preventDefault());
+  });
+
+  // Collapsible subgroups
+  document.querySelectorAll('.subgroup-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const subgroup = btn.closest('.subgroup');
+      const isOpen = subgroup.classList.contains('open');
+      subgroup.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
+</script>
+
+</body>
+</html>
