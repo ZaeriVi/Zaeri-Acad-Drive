@@ -4,556 +4,162 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Zaeri's Acad Drive</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="icon" type="image/png" href="icon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+:root{
+  --navy:#080F22;--blue:#4A7FD4;--blue-bright:#5A8FE0;--sky:#7AAFD6;
+  --bg:#0C1220;--bg-card:#141E30;--bg-card-hover:#192540;
+  --text:#C8D8F0;--text-muted:#7A92B0;--text-light:#5A7090;
+  --border:#1E2E48;--border-soft:#182038;
+  --eee:#4A7FD4;--coe:#8B6FD4;--ece:#3EA8C8;--ee:#3AAA7A;--math:#C89040;--phys:#C85050;--es:#9060C0;--other:#506070;
+  --tabs-bg:rgba(12,18,32,.95);--pending-bg:#0A1220;color-scheme:dark;
+  --radius:12px;--radius-sm:8px;
+}
 
-  :root {
-    --navy: #080F22;
-    --navy-mid: #0E1A3A;
-    --blue: #4A7FD4;
-    --blue-bright: #5A8FE0;
-    --sky: #7AAFD6;
-    --sky-pale: #1E3050;
-    --bg: #0C1220;
-    --bg-mid: #111827;
-    --bg-card: #141E30;
-    --bg-card-hover: #192540;
-    --text: #C8D8F0;
-    --text-muted: #7A92B0;
-    --text-light: #4A6080;
-    --border: #1E2E48;
-    --border-soft: #182038;
-    --eee-accent: #4A7FD4;
-    --coe-accent: #8B6FD4;
-    --ece-accent: #3EA8C8;
-    --ee-accent: #3AAA7A;
-    --math-accent: #C89040;
-    --phys-accent: #C85050;
-    --es-accent: #9060C0;
-    --other-accent: #506070;
-    --radius: 12px;
-    --radius-sm: 8px;
-  }
+:root[data-theme="light"]{
+  --blue:#2F63BE;--blue-bright:#4A7FD4;--sky:#7AAFD6;
+  --bg:#F3F6FC;--bg-card:#FFFFFF;--bg-card-hover:#EEF3FC;
+  --text:#1B2A44;--text-muted:#52688A;--text-light:#6F82A0;
+  --border:#D5DFEE;--border-soft:#E1E8F3;
+  --eee:#2F63BE;--coe:#6B4FC0;--ece:#1F8AAA;--ee:#1F8A5E;--math:#A06A18;--phys:#B03A3A;--es:#7A44AE;--other:#5A6B7C;
+  --tabs-bg:rgba(243,246,252,.95);--pending-bg:#EEF2F9;color-scheme:light;
+}
+:root[data-theme="light"] .icon-bg-eee{background:#E3ECFB;color:#2F63BE}
+:root[data-theme="light"] .icon-bg-math{background:#F8EEDC;color:#A06A18}
+:root[data-theme="light"] .icon-bg-coe{background:#ECE6F8;color:#6B4FC0}
+:root[data-theme="light"] .icon-bg-other{background:#E6EBF1;color:#5A6B7C}
+:root[data-theme="light"] .course-card.uploaded:hover,:root[data-theme="light"] .more-card:hover{box-shadow:0 4px 16px rgba(30,60,120,.14)}
+:root[data-theme="light"] .status-badge.uploaded,:root[data-theme="light"] .subgroup-count.has,:root[data-theme="light"] .chip[aria-pressed="true"]{color:#1F8A5E}
+:root[data-theme="light"] .hero-cta,:root[data-theme="light"] .contribute-btn{background:#4A7FD4}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--blue-bright);outline-offset:2px}
 
-  html { scroll-behavior: smooth; }
+/* HERO */
+.hero{position:relative;overflow:hidden;min-height:340px;display:flex;align-items:center}
+.hero-bg{position:absolute;inset:0;background:url('pic-3.jpg') center/cover no-repeat;z-index:0}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,rgba(8,20,55,.88) 0%,rgba(10,30,80,.76) 45%,rgba(15,40,100,.58) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:1100px;margin:0 auto;padding:56px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.hero-text{flex:1;min-width:0}
+.hero-badge{display:inline-block;background:rgba(59,130,246,.22);border:1px solid rgba(147,197,253,.3);color:var(--sky);font:600 11px 'Space Grotesk',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:18px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.6rem,5.5vw,4.4rem);font-weight:700;color:#fff;line-height:1;letter-spacing:-.02em;margin-bottom:12px;text-transform:uppercase}
+.hero-sub{color:rgba(200,220,255,.78);font-size:.88rem;margin-bottom:26px;max-width:400px}
+.hero-cta,.contribute-btn{display:inline-flex;align-items:center;gap:8px;background:var(--blue-bright);color:#fff;font:600 .88rem 'Space Grotesk',sans-serif;padding:10px 20px;border-radius:100px;text-decoration:none;transition:background .2s,transform .15s;box-shadow:0 4px 14px rgba(37,99,235,.4)}
+.hero-cta:hover,.contribute-btn:hover{background:#3B6FD0;transform:translateY(-1px)}
+.hero-cta svg{width:15px;height:15px}
+@keyframes hero-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.hero-pic1-wrap{flex-shrink:0;width:clamp(180px,26vw,320px);animation:hero-float 5s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(0,30,80,.7)) drop-shadow(0 24px 48px rgba(0,0,0,.65)) drop-shadow(0 2px 8px rgba(74,127,212,.25))}
+.hero-pic1-wrap img{width:100%;display:block}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    line-height: 1.6;
-  }
+/* TABS */
+.tabs-wrap{position:sticky;top:0;z-index:100;background:var(--tabs-bg);display:flex;align-items:center;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border-soft)}
+.tabs{display:flex;justify-content:center;flex:1;min-width:0;max-width:900px;margin:0 auto;overflow-x:auto;scrollbar-width:none;padding:0 16px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;font:600 .8rem 'Space Grotesk',sans-serif;color:var(--text-muted);padding:12px 14px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s,background .15s;white-space:nowrap;text-decoration:none;border-radius:6px 6px 0 0}
+.tab:hover{color:var(--blue);background:rgba(74,127,212,.06)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
 
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    overflow: hidden;
-    min-height: 340px;
-    display: flex;
-    align-items: center;
-  }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background: url('pic-3.jpg') center center / cover no-repeat;
-    z-index: 0;
-  }
-  .hero-bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      105deg,
-      rgba(8, 20, 55, 0.88) 0%,
-      rgba(10, 30, 80, 0.76) 45%,
-      rgba(15, 40, 100, 0.58) 100%
-    );
-  }
-  .hero-inner {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 56px 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-  }
-  .hero-text { flex: 1; min-width: 0; }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(59,130,246,.22);
-    border: 1px solid rgba(147,197,253,.3);
-    color: var(--sky);
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border-radius: 100px;
-    margin-bottom: 18px;
-  }
-  .hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
-    font-weight: 800;
-    color: #FFFFFF;
-    line-height: 1.0;
-    letter-spacing: -.02em;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-  }
-  .hero-sub {
-    color: rgba(200, 220, 255, 0.75);
-    font-size: .88rem;
-    margin-bottom: 26px;
-    max-width: 400px;
-    line-height: 1.6;
-  }
-  .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--blue-bright);
-    color: white;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: .88rem;
-    padding: 10px 20px;
-    border-radius: 100px;
-    text-decoration: none;
-    transition: background .2s, transform .15s;
-    box-shadow: 0 4px 14px rgba(37,99,235,.45);
-  }
-  .hero-cta:hover { background: #1D4ED8; transform: translateY(-1px); }
-  .hero-cta svg { width: 15px; height: 15px; }
+.theme-btn{flex-shrink:0;margin:0 12px 0 -4px;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);color:var(--text-muted);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s}
+.theme-btn:hover{border-color:var(--blue);color:var(--text)}
+/* MAIN */
+.main{max-width:900px;margin:0 auto;padding:28px 20px 72px}
 
-  /* pic-1 floating in hero right side — with shadow */
-  @keyframes hero-float {
-    0%   { transform: translateY(0px); }
-    50%  { transform: translateY(-14px); }
-    100% { transform: translateY(0px); }
-  }
-  .hero-pic1-wrap {
-    flex-shrink: 0;
-    width: clamp(180px, 26vw, 320px);
-    animation: hero-float 5s ease-in-out infinite;
-    filter:
-      drop-shadow(0 8px 24px rgba(0, 30, 80, 0.7))
-      drop-shadow(0 24px 48px rgba(0, 0, 0, 0.65))
-      drop-shadow(0 2px 8px rgba(74, 127, 212, 0.25));
-  }
-  .hero-pic1-wrap img {
-    width: 100%;
-    display: block;
-  }
+/* TOOLBAR */
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:28px}
+.search{flex:1 1 220px;min-width:0;background:var(--bg-card);border:1px solid var(--border);border-radius:100px;color:var(--text);font:.85rem 'Inter',sans-serif;padding:9px 16px}
+.search::placeholder{color:var(--text-light)}
+.chip{background:var(--bg-card);border:1px solid var(--border);color:var(--text-muted);font:600 .74rem 'Space Grotesk',sans-serif;padding:8px 14px;border-radius:100px;cursor:pointer;transition:all .15s}
+.chip:hover{color:var(--text);border-color:var(--blue)}
+.chip[aria-pressed="true"]{background:rgba(58,170,122,.14);border-color:rgba(58,170,122,.4);color:#3AAA7A}
+.stats{flex-basis:100%;font-size:.74rem;color:var(--text-light);font-family:'Space Grotesk',sans-serif}
 
-  /* ── NAV TABS (centered) ── */
-  .tabs-wrap {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(12,18,32,.95);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .tabs {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    max-width: 900px;
-    margin: 0 auto;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding: 0 16px;
-  }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab {
-    flex-shrink: 0;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: .8rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    padding: 12px 14px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    border-bottom: 2px solid transparent;
-    transition: color .15s, border-color .15s, background .15s;
-    white-space: nowrap;
-    text-decoration: none;
-    display: block;
-    border-radius: 6px 6px 0 0;
-    letter-spacing: .01em;
-  }
-  .tab:hover { color: var(--blue); background: rgba(74, 127, 212, 0.06); }
-  .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+/* SECTIONS */
+.section{margin-bottom:48px;scroll-margin-top:64px}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.section-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.section-title{font:700 1.15rem/1.2 'Space Grotesk',sans-serif;color:var(--text)}
+.section-note{font-size:.76rem;color:var(--text-light);margin-top:2px}
+.divider{height:1px;background:var(--border-soft);margin:32px 0}
+.section[hidden]+.divider{display:none}
+.icon-bg-eee{background:#12213A;color:#4A7FD4}.icon-bg-math{background:#251A0A;color:#C89040}
+.icon-bg-coe{background:#1A1535;color:#8B6FD4}.icon-bg-other{background:#141E28;color:#506070}
 
-  /* ── MAIN CONTENT ── */
-  .main { max-width: 900px; margin: 0 auto; padding: 36px 20px 72px; }
+/* SUBGROUPS */
+.subgroup{margin-bottom:6px;border-bottom:1px solid var(--border-soft)}
+.subgroup-toggle{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;cursor:pointer;padding:10px 0;text-align:left;color:inherit;font-family:inherit}
+.subgroup-label{font:700 .76rem 'Space Grotesk',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+.subgroup-toggle:hover .subgroup-label{color:var(--text)}
+.subgroup-count{font:600 .68rem 'Space Grotesk',sans-serif;background:var(--border-soft);color:var(--text-light);border-radius:100px;padding:1px 8px}
+.subgroup-count.has{background:rgba(58,170,122,.12);color:#3AAA7A}
+.subgroup-chevron{margin-left:auto;color:var(--text-light);font-size:.7rem;transition:transform .2s}
+.subgroup.open .subgroup-chevron{transform:rotate(180deg)}
+.subgroup-body{overflow:hidden;max-height:0;transition:max-height .3s ease}
+.subgroup.open .subgroup-body{max-height:1400px;padding-bottom:14px}
+.course-grid,.more-grid{display:grid;gap:8px;padding-top:4px}
+.course-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
 
-  /* ── SECTION ── */
-  .section { margin-bottom: 48px; }
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .section-icon {
-    width: 38px; height: 38px;
-    border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
-  .section-title-wrap {}
-  .section-label {
-    font-size: .65rem;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--text-light);
-    font-family: 'Space Grotesk', sans-serif;
-  }
-  .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-  }
+/* COURSE CARD */
+.course-card{--accent:var(--blue);background:var(--bg-card);border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:13px 15px 11px;display:flex;flex-direction:column;gap:3px;transition:border-color .18s,box-shadow .18s,transform .15s,background .18s;text-decoration:none;color:inherit;position:relative;overflow:hidden}
+.course-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);opacity:0;transition:opacity .18s}
+.course-card.uploaded::before{opacity:.5}
+.course-card.uploaded:hover{background:var(--bg-card-hover);border-color:var(--accent);box-shadow:0 4px 18px rgba(0,0,0,.38);transform:translateY(-2px)}
+.course-card.uploaded:hover::before{opacity:1}
+.course-card.pending{opacity:.5;cursor:default}
+.course-code{font:700 .8rem 'Space Grotesk',sans-serif;color:var(--accent);display:flex;align-items:center;justify-content:space-between}
+.link-icon{opacity:0;font-size:.75rem;transition:opacity .18s;background:var(--accent);color:#fff;border-radius:4px;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center}
+.course-card.uploaded:hover .link-icon{opacity:1}
+.course-name{font-size:.77rem;color:var(--text-muted);line-height:1.38}
+.status-badge{display:inline-block;font:700 .6rem 'Space Grotesk',sans-serif;border-radius:4px;padding:1px 6px;margin-top:3px;letter-spacing:.05em;text-transform:uppercase;width:fit-content}
+.status-badge.uploaded{background:rgba(58,170,122,.12);border:1px solid rgba(58,170,122,.3);color:#3AAA7A}
+.status-badge.pending{background:var(--pending-bg);border:1px solid var(--border);color:var(--text-light)}
+.a-eee{--accent:var(--eee)}.a-coe{--accent:var(--coe)}.a-ece{--accent:var(--ece)}.a-ee{--accent:var(--ee)}
+.a-math{--accent:var(--math)}.a-phys{--accent:var(--phys)}.a-es{--accent:var(--es)}.a-other{--accent:var(--other)}
 
-  /* ── SUB-GROUPS: collapsible ── */
-  .subgroup { margin-bottom: 6px; }
-  .subgroup-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px 0;
-    text-align: left;
-    color: inherit;
-    font-family: inherit;
-  }
-  .subgroup-label {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: .72rem;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-  }
-  .subgroup-toggle:hover .subgroup-label { color: var(--text); }
-  .subgroup-count {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: .68rem;
-    font-weight: 600;
-    background: var(--border-soft);
-    color: var(--text-light);
-    border-radius: 100px;
-    padding: 1px 7px;
-    letter-spacing: 0;
-  }
-  .subgroup-chevron {
-    margin-left: auto;
-    color: var(--text-light);
-    font-size: .7rem;
-    transition: transform .2s;
-  }
-  .subgroup.open .subgroup-chevron { transform: rotate(180deg); }
-  .subgroup-body {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height .3s ease, padding .2s;
-  }
-  .subgroup.open .subgroup-body {
-    max-height: 800px;
-    padding-bottom: 14px;
-  }
+/* MORE */
+.more-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.more-card{background:var(--bg-card);border:1px solid var(--border-soft);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:6px;transition:border-color .18s,box-shadow .18s,transform .15s,background .18s}
+.more-card:hover{background:var(--bg-card-hover);border-color:var(--blue-bright);box-shadow:0 4px 20px rgba(0,0,0,.4);transform:translateY(-2px)}
+.more-card.soon{opacity:.55}.more-card.soon:hover{transform:none;border-color:var(--border-soft);background:var(--bg-card);box-shadow:none}
+.more-card-icon{font-size:1.3rem}
+.more-card-title{font:700 .9rem 'Space Grotesk',sans-serif;color:var(--text)}
+.more-card-desc{font-size:.76rem;color:var(--text-muted);line-height:1.45;flex:1}
+.more-card-link{display:inline-flex;align-items:center;gap:5px;font:700 .76rem 'Space Grotesk',sans-serif;color:var(--blue);text-decoration:none;margin-top:6px;padding:5px 10px;background:rgba(74,127,212,.1);border:1px solid rgba(74,127,212,.2);border-radius:6px;transition:background .15s,border-color .15s;width:fit-content}
+.more-card-link:hover{background:rgba(74,127,212,.2);border-color:var(--blue)}
+.more-card-link svg{width:11px;height:11px}
+.more-card-link.disabled{opacity:.6;pointer-events:none}
 
-  /* ── COURSE GRID ── */
-  .course-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 8px;
-    padding-top: 6px;
-  }
+/* CONTRIBUTE / FOOTER */
+.contribute{background:linear-gradient(135deg,#080F22,#0E1A3A);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.contribute-text{flex:1;min-width:200px}
+.contribute-title{font:700 1.05rem 'Space Grotesk',sans-serif;color:#fff;margin-bottom:4px}
+.contribute-sub{font-size:.82rem;color:rgba(186,214,255,.78)}
+.contribute-btn{font-weight:700;font-size:.85rem;padding:11px 20px;white-space:nowrap}
+.empty{text-align:center;color:var(--text-muted);padding:48px 0;font-size:.9rem}
+footer{text-align:center;padding:24px 20px;border-top:1px solid var(--border-soft);font:.75rem 'Space Grotesk',sans-serif;color:var(--text-light)}
+footer a{color:var(--blue);text-decoration:none}footer a:hover{text-decoration:underline}
 
-  /* ── COURSE CARD ── */
-  .course-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-sm);
-    padding: 13px 15px 11px;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    transition: border-color .18s, box-shadow .18s, transform .15s, background .18s;
-    text-decoration: none;
-    color: inherit;
-    position: relative;
-    overflow: hidden;
-  }
-  .course-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--accent, var(--blue));
-    border-radius: 3px 0 0 3px;
-    opacity: 0;
-    transition: opacity .18s;
-  }
-  /* Uploaded cards: always show a subtle left bar and full opacity */
-  .course-card.uploaded::before { opacity: 0.5; }
-  .course-card.uploaded { opacity: 1; }
-
-  .course-card:not(.pending):hover,
-  .course-card.uploaded:hover {
-    background: var(--bg-card-hover);
-    border-color: var(--accent, var(--blue));
-    box-shadow: 0 4px 18px rgba(0,0,0,.38);
-    transform: translateY(-2px);
-  }
-  .course-card:not(.pending):hover::before,
-  .course-card.uploaded:hover::before { opacity: 1; }
-
-  /* Pending: dimmer, no hover interaction */
-  .course-card.pending:not(.uploaded) {
-    opacity: .5;
-    cursor: default;
-    pointer-events: none;
-  }
-
-  .course-code {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: .8rem;
-    font-weight: 700;
-    color: var(--accent, var(--blue));
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .link-icon {
-    opacity: 0;
-    font-size: .75rem;
-    transition: opacity .18s;
-    background: var(--accent, var(--blue));
-    color: #fff;
-    border-radius: 4px;
-    width: 18px; height: 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .course-card:hover .link-icon { opacity: 1; }
-  .course-name {
-    font-size: .77rem;
-    color: var(--text-muted);
-    line-height: 1.38;
-  }
-  .status-badge {
-    display: inline-block;
-    font-size: .6rem;
-    font-weight: 700;
-    border-radius: 4px;
-    padding: 1px 6px;
-    margin-top: 3px;
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    width: fit-content;
-  }
-  .status-badge.uploaded {
-    background: rgba(58, 170, 122, 0.12);
-    border: 1px solid rgba(58, 170, 122, 0.3);
-    color: #3AAA7A;
-  }
-  .status-badge.pending {
-    background: #0A1220;
-    border: 1px solid var(--border);
-    color: var(--text-light);
-  }
-
-  /* ── MORE CARDS ── */
-  .more-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
-  }
-  .more-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius);
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    transition: border-color .18s, box-shadow .18s, transform .15s, background .18s;
-    color: inherit;
-    position: relative;
-    overflow: hidden;
-  }
-  .more-card:hover {
-    background: var(--bg-card-hover);
-    border-color: var(--blue-bright);
-    box-shadow: 0 4px 20px rgba(0,0,0,.4);
-    transform: translateY(-2px);
-  }
-  .more-card-icon {
-    font-size: 1.3rem;
-    margin-bottom: 2px;
-  }
-  .more-card-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: .9rem;
-    color: var(--text);
-  }
-  .more-card-desc {
-    font-size: .76rem;
-    color: var(--text-muted);
-    line-height: 1.45;
-    flex: 1;
-  }
-  .more-card-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: .76rem;
-    font-weight: 700;
-    color: var(--blue);
-    text-decoration: none;
-    margin-top: 6px;
-    padding: 5px 10px;
-    background: rgba(74, 127, 212, 0.1);
-    border: 1px solid rgba(74, 127, 212, 0.2);
-    border-radius: 6px;
-    transition: background .15s, border-color .15s;
-    width: fit-content;
-  }
-  .more-card-link:hover { background: rgba(74, 127, 212, 0.2); border-color: var(--blue); }
-  .more-card-link svg { width: 11px; height: 11px; }
-
-  /* ── CONTRIBUTE BANNER ── */
-  .contribute {
-    background: linear-gradient(135deg, #080F22 0%, #0E1A3A 100%);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .contribute-text { flex: 1; min-width: 200px; }
-  .contribute-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 4px;
-  }
-  .contribute-sub {
-    font-size: .82rem;
-    color: rgba(186,214,255,.75);
-    line-height: 1.5;
-  }
-  .contribute-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--blue-bright);
-    color: white;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: .85rem;
-    padding: 11px 20px;
-    border-radius: 100px;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background .2s, transform .15s;
-    box-shadow: 0 4px 14px rgba(37,99,235,.4);
-  }
-  .contribute-btn:hover { background: #1D4ED8; transform: translateY(-1px); }
-
-  /* ── DIVIDER ── */
-  .divider {
-    height: 1px;
-    background: var(--border-soft);
-    margin: 32px 0;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    text-align: center;
-    padding: 24px 20px;
-    border-top: 1px solid var(--border-soft);
-    font-size: .75rem;
-    color: var(--text-light);
-    font-family: 'Space Grotesk', sans-serif;
-    background: var(--bg);
-  }
-  footer a { color: var(--blue); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
-
-  /* accent color classes */
-  .a-eee { --accent: var(--eee-accent); }
-  .a-coe { --accent: var(--coe-accent); }
-  .a-ece { --accent: var(--ece-accent); }
-  .a-ee  { --accent: var(--ee-accent); }
-  .a-math { --accent: var(--math-accent); }
-  .a-phys { --accent: var(--phys-accent); }
-  .a-es  { --accent: var(--es-accent); }
-  .a-other { --accent: var(--other-accent); }
-
-  .icon-bg-eee { background: #12213A; color: #4A7FD4; }
-  .icon-bg-coe { background: #1A1535; color: #8B6FD4; }
-  .icon-bg-ece { background: #0E2030; color: #3EA8C8; }
-  .icon-bg-ee  { background: #0E2020; color: #3AAA7A; }
-  .icon-bg-math { background: #251A0A; color: #C89040; }
-  .icon-bg-other { background: #141E28; color: #506070; }
-
-  /* z-index stacking */
-  .tabs-wrap { z-index: 100; }
-  .main { position: relative; z-index: 1; }
-  header.hero { position: relative; z-index: 1; }
-
-  @media (max-width: 700px) {
-    .hero-inner { flex-direction: column; padding: 40px 20px; text-align: center; }
-    .hero h1 { font-size: clamp(2.2rem, 10vw, 3rem); }
-    .hero-sub { max-width: 100%; }
-    .hero-pic1-wrap { width: clamp(130px, 52vw, 200px); }
-    .main { padding: 24px 14px 56px; }
-    .contribute { padding: 20px 16px; }
-    .course-grid { grid-template-columns: 1fr; }
-    .more-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-pic1-wrap { animation: none; }
-  }
+@media(max-width:700px){
+  .hero-inner{flex-direction:column;padding:40px 20px;text-align:center}
+  .hero h1{font-size:clamp(2.2rem,10vw,3rem)}
+  .hero-sub{max-width:100%}
+  .hero-pic1-wrap{width:clamp(130px,52vw,200px)}
+  .main{padding:20px 14px 56px}
+  .contribute{padding:20px 16px}
+  .course-grid{grid-template-columns:1fr}
+  .more-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .tabs{justify-content:flex-start}
+}
+@media(prefers-reduced-motion:reduce){.hero-pic1-wrap{animation:none}html{scroll-behavior:auto}.subgroup-body{transition:none}}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
 <header class="hero">
   <div class="hero-bg"></div>
   <div class="hero-inner">
@@ -561,572 +167,205 @@
       <div class="hero-badge">✦ Personal Collection</div>
       <h1>Zaeri's<br>Acad Drive.</h1>
       <p class="hero-sub">A curated collection of academic resources for eriza's friends and the EEE family — collected and shared for everyone to use freely.</p>
-      <a href="https://drive.google.com/drive/folders/1OJRidaGIRTspHsBGA-OoABWwGd_r76X7?usp=drive_link" target="_blank" class="hero-cta">
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 1v14M1 8h14" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      <a href="https://drive.google.com/drive/folders/1OJRidaGIRTspHsBGA-OoABWwGd_r76X7?usp=drive_link" target="_blank" rel="noopener" class="hero-cta">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
         Contribute a resource
       </a>
     </div>
-    <div class="hero-pic1-wrap">
-      <img src="pic-1.png" alt=""/>
-    </div>
+    <div class="hero-pic1-wrap"><img src="pic-1.png" alt=""/></div>
   </div>
 </header>
 
-<!-- STICKY NAV TABS — centered -->
-<nav class="tabs-wrap">
-  <div class="tabs">
-    <a class="tab active" href="#eee-fund">EEE Fundamentals</a>
-    <a class="tab" href="#coe">CoE Major</a>
-    <a class="tab" href="#ece">ECE Major</a>
-    <a class="tab" href="#ee">EE Major</a>
-    <a class="tab" href="#math">Math & Physics</a>
-    <a class="tab" href="#more">More</a>
-  </div>
-</nav>
+<nav class="tabs-wrap" aria-label="Sections"><div class="tabs" id="tabs"></div><button class="theme-btn" id="themeBtn" aria-label="Switch to light mode" title="Switch theme">☀</button></nav>
 
 <main class="main">
+  <div class="toolbar">
+    <input class="search" id="search" type="search" placeholder="Search a course code or name…" aria-label="Search courses"/>
+    <button class="chip" id="onlyUp" aria-pressed="false">Link uploaded only</button>
+    <button class="chip" id="expandAll">Expand all</button>
+    <button class="chip" id="collapseAll">Collapse all</button>
+    <div class="stats" id="stats"></div>
+  </div>
+  <div id="content"></div>
+  <p class="empty" id="empty" hidden>No courses match that search.</p>
 
-  <!-- ───────────────── EEE FUNDAMENTALS ───────────────── -->
-  <section class="section" id="eee-fund">
-    <div class="section-header">
-      <div class="section-icon icon-bg-eee">⚡</div>
-      <div class="section-title-wrap">
-        <div class="section-label">Section 01</div>
-        <div class="section-title">EEE Fundamentals</div>
-      </div>
-    </div>
-
-    <!-- EEE 11x -->
-    <div class="subgroup open">
-      <button class="subgroup-toggle" aria-expanded="true">
-        <span class="subgroup-label">EEE 11x</span>
-        <span class="subgroup-count">3 courses</span>
-        <span class="subgroup-chevron">▾</span>
-      </button>
-      <div class="subgroup-body">
-        <div class="course-grid">
-          <a href="https://drive.google.com/drive/folders/1vLi4X4uoSb1if55reKk3sESuxnDk_oLQ?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
-            <div class="course-code">EEE 111 <span class="link-icon">↗</span></div>
-            <div class="course-name">Introduction to Programming and Computation</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1lG0IBKnXU2SaFoYmeo1SRPnDQUCPeT4l?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
-            <div class="course-code">EEE 113 <span class="link-icon">↗</span></div>
-            <div class="course-name">Introduction to Electrical and Electronics Engineering Systems</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 118 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electrical and Electronics Engineering Laboratory I</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- EEE 12x -->
-    <div class="subgroup open">
-      <button class="subgroup-toggle" aria-expanded="true">
-        <span class="subgroup-label">EEE 12x</span>
-        <span class="subgroup-count">3 courses</span>
-        <span class="subgroup-chevron">▾</span>
-      </button>
-      <div class="subgroup-body">
-        <div class="course-grid">
-          <a href="https://drive.google.com/drive/folders/1Kv16kkzZYbuHUyIm9yQYE9yUPAqsI0VR?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
-            <div class="course-code">EEE 121 <span class="link-icon">↗</span></div>
-            <div class="course-name">Data Structures and Algorithms for EEE</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1XRbkcdBGgXCmTB0RiAONAeJ6NBr5c3oS?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
-            <div class="course-code">EEE 123 <span class="link-icon">↗</span></div>
-            <div class="course-name">Circuits and Electronics I</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 128 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electrical and Electronics Engineering Laboratory II</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- EEE 13x -->
-    <div class="subgroup">
-      <button class="subgroup-toggle" aria-expanded="false">
-        <span class="subgroup-label">EEE 13x</span>
-        <span class="subgroup-count">5 courses</span>
-        <span class="subgroup-chevron">▾</span>
-      </button>
-      <div class="subgroup-body">
-        <div class="course-grid">
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 131 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electronic Devices and Circuits</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 133 <span class="link-icon">↗</span></div>
-            <div class="course-name">Circuits and Electronics II</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 135 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electromagnetic Fields I</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1suWI6KKA6ieveDZ7HrsO6nJ_0YFzBwv5?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
-            <div class="course-code">EEE 137 <span class="link-icon">↗</span></div>
-            <div class="course-name">Probability, Statistics and Random Processes in EEE</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1R5FEexyBWUw_TwFIic1GcPEHCks9L8eE?usp=drive_link" target="_blank" class="course-card a-eee uploaded">
-            <div class="course-code">EEE 138 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electrical and Electronics Engineering Laboratory III</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- EEE 14x -->
-    <div class="subgroup">
-      <button class="subgroup-toggle" aria-expanded="false">
-        <span class="subgroup-label">EEE 14x</span>
-        <span class="subgroup-count">5 courses</span>
-        <span class="subgroup-chevron">▾</span>
-      </button>
-      <div class="subgroup-body">
-        <div class="course-grid">
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 141 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electronic Circuits and Systems</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 143 <span class="link-icon">↗</span></div>
-            <div class="course-name">Switching Theory and Digital Logic Design</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 145 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electromechanical Energy Converters</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 147 <span class="link-icon">↗</span></div>
-            <div class="course-name">Signals and Systems</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 148 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electrical and Electronics Engineering Laboratory IV</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- EEE 15x -->
-    <div class="subgroup">
-      <button class="subgroup-toggle" aria-expanded="false">
-        <span class="subgroup-label">EEE 15x</span>
-        <span class="subgroup-count">5 courses</span>
-        <span class="subgroup-chevron">▾</span>
-      </button>
-      <div class="subgroup-body">
-        <div class="course-grid">
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 151 <span class="link-icon">↗</span></div>
-            <div class="course-name">Analog and Digital Control</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 153 <span class="link-icon">↗</span></div>
-            <div class="course-name">Computer Organization and Embedded Systems I</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 155 <span class="link-icon">↗</span></div>
-            <div class="course-name">Introduction to Electric Power Systems</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 157 <span class="link-icon">↗</span></div>
-            <div class="course-name">Communication Systems and Networks</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-eee pending">
-            <div class="course-code">EEE 158 <span class="link-icon">↗</span></div>
-            <div class="course-name">Electrical and Electronics Engineering Laboratory V</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ───────────────── CoE MAJOR ───────────────── -->
-  <section class="section" id="coe">
-    <div class="section-header">
-      <div class="section-icon icon-bg-coe">💻</div>
-      <div class="section-title-wrap">
-        <div class="section-label">Section 02</div>
-        <div class="section-title">Computer Engineering Major</div>
-      </div>
-    </div>
-    <div class="course-grid">
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
-        <div class="course-code">CoE 161 <span class="link-icon">↗</span></div>
-        <div class="course-name">Introduction to Information and Complexity</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
-        <div class="course-code">CoE 163 <span class="link-icon">↗</span></div>
-        <div class="course-name">Computing Architectures and Algorithms</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
-        <div class="course-code">CoE 164 <span class="link-icon">↗</span></div>
-        <div class="course-name">Computing Platforms</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
-        <div class="course-code">CoE 165 <span class="link-icon">↗</span></div>
-        <div class="course-name">Computer Organization and Embedded Systems II</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
-        <div class="course-code">CoE 167 <span class="link-icon">↗</span></div>
-        <div class="course-name">Computing Systems</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-coe pending">
-        <div class="course-code">CoE 168 <span class="link-icon">↗</span></div>
-        <div class="course-name">Computing Solutions for Contemporary Issues</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ───────────────── ECE MAJOR ───────────────── -->
-  <section class="section" id="ece">
-    <div class="section-header">
-      <div class="section-icon icon-bg-ece">📡</div>
-      <div class="section-title-wrap">
-        <div class="section-label">Section 03</div>
-        <div class="section-title">Electronics & Communications Engineering Major</div>
-      </div>
-    </div>
-    <div class="course-grid">
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
-        <div class="course-code">ECE 161 <span class="link-icon">↗</span></div>
-        <div class="course-name">Digital Signal Processing</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
-        <div class="course-code">ECE 163 <span class="link-icon">↗</span></div>
-        <div class="course-name">Communication Electronics</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
-        <div class="course-code">ECE 164 <span class="link-icon">↗</span></div>
-        <div class="course-name">Communication Circuits and Signal Processing Laboratory</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
-        <div class="course-code">ECE 165 <span class="link-icon">↗</span></div>
-        <div class="course-name">Digital Communication Systems</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
-        <div class="course-code">ECE 167 <span class="link-icon">↗</span></div>
-        <div class="course-name">Computer Networks</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ece pending">
-        <div class="course-code">ECE 168 <span class="link-icon">↗</span></div>
-        <div class="course-name">Network Communications Laboratory</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ───────────────── EE MAJOR ───────────────── -->
-  <section class="section" id="ee">
-    <div class="section-header">
-      <div class="section-icon icon-bg-ee">🔌</div>
-      <div class="section-title-wrap">
-        <div class="section-label">Section 04</div>
-        <div class="section-title">Electrical Engineering Major</div>
-      </div>
-    </div>
-    <div class="course-grid">
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
-        <div class="course-code">EE 161 <span class="link-icon">↗</span></div>
-        <div class="course-name">Introduction to Power Electronics</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
-        <div class="course-code">EE 163 <span class="link-icon">↗</span></div>
-        <div class="course-name">Electrical Machines and Equipment</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
-        <div class="course-code">EE 164 <span class="link-icon">↗</span></div>
-        <div class="course-name">Power Electronics and Electric Machines Laboratory</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
-        <div class="course-code">EE 165 <span class="link-icon">↗</span></div>
-        <div class="course-name">Electric Power Generation and Transmission</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
-        <div class="course-code">EE 167 <span class="link-icon">↗</span></div>
-        <div class="course-name">Electric Energy Distribution and Utilization</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-      <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-ee pending">
-        <div class="course-code">EE 168 <span class="link-icon">↗</span></div>
-        <div class="course-name">Electric Power System Laboratory</div>
-        <span class="status-badge pending">link pending</span>
-      </a>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ───────────────── MATH, PHYSICS & ENGINEERING ───────────────── -->
-  <section class="section" id="math">
-    <div class="section-header">
-      <div class="section-icon icon-bg-math">📐</div>
-      <div class="section-title-wrap">
-        <div class="section-label">Section 05</div>
-        <div class="section-title">Math, Physics & Engineering Sciences</div>
-      </div>
-    </div>
-
-    <div class="subgroup open">
-      <button class="subgroup-toggle" aria-expanded="true">
-        <span class="subgroup-label">Mathematics</span>
-        <span class="subgroup-count">4 courses</span>
-        <span class="subgroup-chevron">▾</span>
-      </button>
-      <div class="subgroup-body">
-        <div class="course-grid">
-          <a href="https://drive.google.com/drive/folders/1F4uyusRFpJhbPV-oQ1PgqhRzA10xPoqD?usp=drive_link" target="_blank" class="course-card a-math uploaded">
-            <div class="course-code">Math 21 <span class="link-icon">↗</span></div>
-            <div class="course-name">Elementary Analysis I</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1RZ3doLKx2Yk2l32lAw0tp0286M-twHI_?usp=drive_link" target="_blank" class="course-card a-math uploaded">
-            <div class="course-code">Math 22 <span class="link-icon">↗</span></div>
-            <div class="course-name">Elementary Analysis II</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1CT9r-IwPM1DQ_TGjzR20B9cqGEhSKXG6?usp=drive_link" target="_blank" class="course-card a-math uploaded">
-            <div class="course-code">Math 23 <span class="link-icon">↗</span></div>
-            <div class="course-name">Elementary Analysis III</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1MYsQEmn49OLhABig8r4E1cNTVgno4cht" target="_blank" class="course-card a-math uploaded">
-            <div class="course-code">Math 40 <span class="link-icon">↗</span></div>
-            <div class="course-name">Linear Algebra</div>
-            <span class="status-badge pending">link uploaded</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="subgroup open">
-      <button class="subgroup-toggle" aria-expanded="true">
-        <span class="subgroup-label">Physics</span>
-        <span class="subgroup-count">3 courses</span>
-        <span class="subgroup-chevron">▾</span>
-      </button>
-      <div class="subgroup-body">
-        <div class="course-grid">
-          <a href="https://drive.google.com/drive/folders/1nlUZx4_5v--02hSrMsr8PzsoaN3HGncP?usp=drive_link" target="_blank" class="course-card a-phys uploaded">
-            <div class="course-code">Physics 71 <span class="link-icon">↗</span></div>
-            <div class="course-name">Elementary Physics I</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1dOZPDwBJ_bptW1mcl7z3Aq0qrvuvivP-?usp=drive_link" target="_blank" class="course-card a-phys uploaded">
-            <div class="course-code">Physics 72 <span class="link-icon">↗</span></div>
-            <div class="course-name">Elementary Physics II</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-          <a href="https://drive.google.com/drive/folders/1HrAmrxUQfitS-l6LG65vCIKtVbDCkOkB?usp=drive_link" target="_blank" class="course-card a-phys uploaded">
-            <div class="course-code">Physics 73 <span class="link-icon">↗</span></div>
-            <div class="course-name">Elementary Physics III</div>
-            <span class="status-badge uploaded">link uploaded</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="subgroup">
-      <button class="subgroup-toggle" aria-expanded="false">
-        <span class="subgroup-label">Engineering Sciences & Others</span>
-        <span class="subgroup-count">4 courses</span>
-        <span class="subgroup-chevron">▾</span>
-      </button>
-      <div class="subgroup-body">
-        <div class="course-grid">
-          <a href="https://drive.google.com/drive/folders/1ZyAfox38DZHVvyS8xBBAxo9igE7hQLx_?usp=drive_link" target="_blank" class="course-card a-es uploaded">
-            <div class="course-code">ES 101 <span class="link-icon">↗</span></div>
-            <div class="course-name">Mechanics of Particles and Rigid Bodies</div>
-            <span class="status-badge pending">link uploaded</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-es pending">
-            <div class="course-code">ES 102 <span class="link-icon">↗</span></div>
-            <div class="course-name">Mechanics of Deformable Bodies</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-other pending">
-            <div class="course-code">CE 22 <span class="link-icon">↗</span></div>
-            <div class="course-name">Introduction to Programming and Computation</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-          <a href="YOUR_LINK_HERE" target="_blank" class="course-card a-other pending">
-            <div class="course-code">ME 63 <span class="link-icon">↗</span></div>
-            <div class="course-name">Introduction to Electrical and Electronics Engineering Systems</div>
-            <span class="status-badge pending">link pending</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ───────────────── MORE ───────────────── -->
-  <section class="section" id="more">
-    <div class="section-header">
-      <div class="section-icon icon-bg-other">📦</div>
-      <div class="section-title-wrap">
-        <div class="section-label">Section 06</div>
-        <div class="section-title">More Resources</div>
-      </div>
-    </div>
-    <div class="more-grid">
-      <div class="more-card">
-        <div class="more-card-icon">📚</div>
-        <div class="more-card-title">EEE Electives</div>
-        <div class="more-card-desc">Resources for EEE elective courses and specialized topics.</div>
-        <a href="YOUR_LINK_HERE" target="_blank" class="more-card-link">
-          Open folder
-          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-      <div class="more-card">
-        <div class="more-card-icon">🗂️</div>
-        <div class="more-card-title">Old Curriculum</div>
-        <div class="more-card-desc">Academic sources from the previous curriculum, still useful as reference.</div>
-        <a href="YOUR_LINK_HERE" target="_blank" class="more-card-link">
-          Open folder
-          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-      <div class="more-card">
-        <div class="more-card-icon">📖</div>
-        <div class="more-card-title">E-Books</div>
-        <div class="more-card-desc">A spreadsheet of reference e-books for studying across all majors.</div>
-        <a href="https://drive.google.com/drive/folders/1F_D50RNUQqcWkrP-Kjg0qUBmozFWJyfN?usp=drive_link" target="_blank" class="more-card-link">
-          Open sheet
-          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-      <div class="more-card">
-        <div class="more-card-icon">🌐</div>
-        <div class="more-card-title">GE Courses</div>
-        <div class="more-card-desc">Resources for General Education courses — Kas, STS, PI, and the rest.</div>
-        <a href="https://drive.google.com/drive/folders/1v1ENi99i7BHeR9hatKtb_tiAIYsZ2AXp?usp=drive_link" target="_blank" class="more-card-link">
-          Open folder
-          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-      <div class="more-card">
-        <div class="more-card-icon">🎲</div>
-        <div class="more-card-title">Free Electives</div>
-        <div class="more-card-desc">Resources for free elective courses taken outside the major curriculum.</div>
-        <a href="YOUR_LINK_HERE" target="_blank" class="more-card-link">
-          Open folder
-          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-      <div class="more-card">
-        <div class="more-card-icon">➕</div>
-        <div class="more-card-title">Add Your Own</div>
-        <div class="more-card-desc">Got another category to add? Drop a link and I'll include it here.</div>
-        <a href="https://drive.google.com/drive/folders/1OJRidaGIRTspHsBGA-OoABWwGd_r76X7?usp=drive_link" target="_blank" class="more-card-link">
-          Suggest it
-          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- CONTRIBUTE BANNER -->
   <div class="contribute">
     <div class="contribute-text">
       <div class="contribute-title">Want to contribute?</div>
       <div class="contribute-sub">Got reviewers, past exams, notes, or other resources? Share them here and help your fellow students out. ✦</div>
     </div>
-    <a href="https://drive.google.com/drive/folders/1OJRidaGIRTspHsBGA-OoABWwGd_r76X7?usp=drive_link" target="_blank" class="contribute-btn">
-      Submit a resource →
-    </a>
+    <a href="https://drive.google.com/drive/folders/1OJRidaGIRTspHsBGA-OoABWwGd_r76X7?usp=drive_link" target="_blank" rel="noopener" class="contribute-btn">Submit a resource →</a>
   </div>
-
 </main>
 
 <footer>
-  <p>Zaeri's Acad Drive &nbsp;·&nbsp; personal collection, shared with ✦ &nbsp;·&nbsp; <a href="https://www.upcircuit.org/acad-drive" target="_blank">inspired by UP Circuit</a></p>
+  <p>Zaeri's Acad Drive &nbsp;·&nbsp; personal collection, shared with ✦ &nbsp;·&nbsp; <a href="https://www.upcircuit.org/acad-drive" target="_blank" rel="noopener">inspired by UP Circuit</a></p>
 </footer>
 
 <script>
-  // Active tab highlighting on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const tabs = document.querySelectorAll('.tab');
+const LB='https://drive.google.com/drive/folders/';
+const L=id=>!id?'':id.startsWith('http')?id:LB+id+'?usp=drive_link';
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        tabs.forEach(t => {
-          t.classList.toggle('active', t.getAttribute('href') === '#' + id);
-        });
-      }
-    });
-  }, { rootMargin: '-30% 0px -60% 0px' });
+/* ── DATA: [code, name, folderId]  (leave id empty = link pending) ── */
+const SECTIONS=[
+{id:'eee-fund',tab:'EEE Fundamentals',title:'EEE Fundamentals',icon:'⚡',ic:'eee',groups:[
+ ['EEE 11x','eee',[
+  ['EEE 111','Introduction to Programming and Computation','1vLi4X4uoSb1if55reKk3sESuxnDk_oLQ'],
+  ['EEE 113','Introduction to Electrical and Electronics Engineering Systems','1lG0IBKnXU2SaFoYmeo1SRPnDQUCPeT4l'],
+  ['EEE 118','Electrical and Electronics Engineering Laboratory I','']]],
+ ['EEE 12x','eee',[
+  ['EEE 121','Data Structures and Algorithms for EEE','1Kv16kkzZYbuHUyIm9yQYE9yUPAqsI0VR'],
+  ['EEE 123','Circuits and Electronics I','1XRbkcdBGgXCmTB0RiAONAeJ6NBr5c3oS'],
+  ['EEE 128','Electrical and Electronics Engineering Laboratory II','']]],
+ ['EEE 13x','eee',[
+  ['EEE 131','Electronic Devices and Circuits',''],
+  ['EEE 133','Circuits and Electronics II',''],
+  ['EEE 135','Electromagnetic Fields I',''],
+  ['EEE 137','Probability, Statistics and Random Processes in EEE','1suWI6KKA6ieveDZ7HrsO6nJ_0YFzBwv5'],
+  ['EEE 138','Electrical and Electronics Engineering Laboratory III','1R5FEexyBWUw_TwFIic1GcPEHCks9L8eE']]],
+ ['EEE 14x','eee',[
+  ['EEE 141','Electronic Circuits and Systems',''],
+  ['EEE 143','Switching Theory and Digital Logic Design',''],
+  ['EEE 145','Electromechanical Energy Converters',''],
+  ['EEE 147','Signals and Systems',''],
+  ['EEE 148','Electrical and Electronics Engineering Laboratory IV','']]],
+ ['EEE 15x','eee',[
+  ['EEE 151','Analog and Digital Control',''],
+  ['EEE 153','Computer Organization and Embedded Systems I',''],
+  ['EEE 155','Introduction to Electric Power Systems',''],
+  ['EEE 157','Communication Systems and Networks',''],
+  ['EEE 158','Electrical and Electronics Engineering Laboratory V','']]]
+]},
+{id:'math',tab:'Math & Physics',title:'Math, Physics & Engineering Sciences',icon:'📐',ic:'math',groups:[
+ ['Mathematics','math',[
+  ['Math 21','Elementary Analysis I','1F4uyusRFpJhbPV-oQ1PgqhRzA10xPoqD'],
+  ['Math 22','Elementary Analysis II','1RZ3doLKx2Yk2l32lAw0tp0286M-twHI_'],
+  ['Math 23','Elementary Analysis III','1CT9r-IwPM1DQ_TGjzR20B9cqGEhSKXG6'],
+  ['Math 40','Linear Algebra',LB+'1MYsQEmn49OLhABig8r4E1cNTVgno4cht']]],
+ ['Physics','phys',[
+  ['Physics 71','Elementary Physics I','1nlUZx4_5v--02hSrMsr8PzsoaN3HGncP'],
+  ['Physics 72','Elementary Physics II','1dOZPDwBJ_bptW1mcl7z3Aq0qrvuvivP-'],
+  ['Physics 73','Elementary Physics III','1HrAmrxUQfitS-l6LG65vCIKtVbDCkOkB']]],
+ ['Engineering Sciences & Others','es',[
+  ['ES 101','Mechanics of Particles and Rigid Bodies','1ZyAfox38DZHVvyS8xBBAxo9igE7hQLx_'],
+  ['ES 102','Mechanics of Deformable Bodies',''],
+  ['CE 22','Introduction to Programming and Computation','','other'],
+  ['ME 63','Introduction to Electrical and Electronics Engineering Systems','','other']]]
+]},
+{id:'majors',tab:'Majors',title:'Majors',icon:'🎓',ic:'coe',note:'Resources for the majors are still coming in, so these stay collapsed until links are added.',groups:[
+ ['💻 Computer Engineering Major','coe',[
+  ['CoE 161','Introduction to Information and Complexity',''],
+  ['CoE 163','Computing Architectures and Algorithms',''],
+  ['CoE 164','Computing Platforms',''],
+  ['CoE 165','Computer Organization and Embedded Systems II',''],
+  ['CoE 167','Computing Systems',''],
+  ['CoE 168','Computing Solutions for Contemporary Issues','']]],
+ ['📡 Electronics & Communications Engineering Major','ece',[
+  ['ECE 161','Digital Signal Processing',''],
+  ['ECE 163','Communication Electronics',''],
+  ['ECE 164','Communication Circuits and Signal Processing Laboratory',''],
+  ['ECE 165','Digital Communication Systems',''],
+  ['ECE 167','Computer Networks',''],
+  ['ECE 168','Network Communications Laboratory','']]],
+ ['🔌 Electrical Engineering Major','ee',[
+  ['EE 161','Introduction to Power Electronics',''],
+  ['EE 163','Electrical Machines and Equipment',''],
+  ['EE 164','Power Electronics and Electric Machines Laboratory',''],
+  ['EE 165','Electric Power Generation and Transmission',''],
+  ['EE 167','Electric Energy Distribution and Utilization',''],
+  ['EE 168','Electric Power System Laboratory','']]]
+]}
+];
 
-  sections.forEach(s => observer.observe(s));
+const MORE=[
+ ['📚','EEE Electives','Resources for EEE elective courses and specialized topics.','','Open folder'],
+ ['🗂️','Old Curriculum','Academic sources from the previous curriculum, still useful as reference.','','Open folder'],
+ ['📖','E-Books','A spreadsheet of reference e-books for studying across all majors.','1F_D50RNUQqcWkrP-Kjg0qUBmozFWJyfN','Open sheet'],
+ ['🌐','GE Courses','Resources for General Education courses — Kas, STS, PI, and the rest.','1v1ENi99i7BHeR9hatKtb_tiAIYsZ2AXp','Open folder'],
+ ['🎲','Free Electives','Resources for free elective courses taken outside the major curriculum.','','Open folder'],
+ ['➕','Add Your Own',"Got another category to add? Drop a link and I'll include it here.",'1OJRidaGIRTspHsBGA-OoABWwGd_r76X7','Suggest it']
+];
+const ARROW='<svg viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-  // Disable pending (non-uploaded) card clicks
-  document.querySelectorAll('.course-card.pending:not(.uploaded)').forEach(card => {
-    card.addEventListener('click', e => e.preventDefault());
+/* ── RENDER ── */
+const card=([code,name,id,acc],g)=>{const l=L(id);return `<a class="course-card a-${acc||g} ${l?'uploaded':'pending'}" ${l?`href="${l}" target="_blank" rel="noopener"`:'aria-disabled="true"'}><div class="course-code">${code}<span class="link-icon">↗</span></div><div class="course-name">${name}</div><span class="status-badge ${l?'uploaded':'pending'}">${l?'link uploaded':'link pending'}</span></a>`};
+const group=([label,acc,cs])=>`<div class="subgroup"><button class="subgroup-toggle" aria-expanded="false"><span class="subgroup-label">${label}</span><span class="subgroup-count"></span><span class="subgroup-chevron">▾</span></button><div class="subgroup-body"><div class="course-grid">${cs.map(c=>card(c,acc)).join('')}</div></div></div>`;
+const section=(s,i)=>`<section class="section" id="${s.id}"><div class="section-header"><div class="section-icon icon-bg-${s.ic}">${s.icon}</div><div><div class="section-title">${s.title}</div>${s.note?`<div class="section-note">${s.note}</div>`:''}</div></div>${s.groups.map(group).join('')}</section><div class="divider"></div>`;
+const more=([ic,t,d,id,b])=>{const l=L(id);return `<div class="more-card ${l?'':'soon'}" data-up="${l?1:0}"><div class="more-card-icon">${ic}</div><div class="more-card-title">${t}</div><div class="more-card-desc">${d}</div><a class="more-card-link ${l?'':'disabled'}" ${l?`href="${l}" target="_blank" rel="noopener"`:'aria-disabled="true"'}>${b} ${ARROW}</a></div>`};
+
+const content=document.getElementById('content');
+content.innerHTML=SECTIONS.map(section).join('')+
+ `<section class="section" id="more"><div class="section-header"><div class="section-icon icon-bg-other">📦</div><div><div class="section-title">More Resources</div></div></div><div class="more-grid">${MORE.map(more).join('')}</div></section><div class="divider"></div>`;
+document.getElementById('tabs').innerHTML=[...SECTIONS.map(s=>[s.id,s.tab]),['more','More']].map(([id,t])=>`<a class="tab" href="#${id}">${t}</a>`).join('');
+
+const $=s=>[...document.querySelectorAll(s)];
+const groups=$('.subgroup');
+
+/* counts + default state: groups with uploaded links start open */
+groups.forEach(g=>{
+  const cards=g.querySelectorAll('.course-card'),up=g.querySelectorAll('.uploaded').length;
+  const c=g.querySelector('.subgroup-count');
+  c.textContent=up?`${up}/${cards.length} ready`:`${cards.length} courses`;
+  c.classList.toggle('has',!!up);
+  g._default=up>0;
+});
+const setOpen=(g,o)=>{g.classList.toggle('open',o);g.querySelector('.subgroup-toggle').setAttribute('aria-expanded',o)};
+const resetDefault=()=>groups.forEach(g=>setOpen(g,g._default));
+resetDefault();
+groups.forEach(g=>g.querySelector('.subgroup-toggle').addEventListener('click',()=>setOpen(g,!g.classList.contains('open'))));
+document.getElementById('expandAll').onclick=()=>groups.filter(g=>!g.hidden).forEach(g=>setOpen(g,true));
+document.getElementById('collapseAll').onclick=()=>groups.forEach(g=>setOpen(g,false));
+
+const totalC=$('.course-card').length,upC=$('.course-card.uploaded').length;
+document.getElementById('stats').textContent=`${upC} of ${totalC} courses have a link uploaded — those folders are open for you.`;
+
+/* search + uploaded-only filter */
+const q=document.getElementById('search'),onlyUp=document.getElementById('onlyUp');
+function applyFilter(){
+  const t=q.value.trim().toLowerCase(),up=onlyUp.getAttribute('aria-pressed')==='true',active=!!t||up;
+  $('.course-card').forEach(c=>{c.hidden=!((!t||c.textContent.toLowerCase().includes(t))&&(!up||c.classList.contains('uploaded')))});
+  $('.more-card').forEach(c=>{c.hidden=!((!t||c.textContent.toLowerCase().includes(t))&&(!up||c.dataset.up==='1'))});
+  groups.forEach(g=>{
+    const n=g.querySelectorAll('.course-card:not([hidden])').length;
+    g.hidden=n===0;
+    if(active)setOpen(g,n>0);
   });
+  if(!active)resetDefault();
+  $('.section').forEach(s=>{s.hidden=!s.querySelector('.subgroup:not([hidden]), .more-card:not([hidden])')});
+  document.getElementById('empty').hidden=$('.section').some(s=>!s.hidden);
+}
+q.addEventListener('input',applyFilter);
+onlyUp.addEventListener('click',()=>{onlyUp.setAttribute('aria-pressed',onlyUp.getAttribute('aria-pressed')!=='true');applyFilter()});
 
-  // Collapsible subgroups
-  document.querySelectorAll('.subgroup-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const subgroup = btn.closest('.subgroup');
-      const isOpen = subgroup.classList.contains('open');
-      subgroup.classList.toggle('open', !isOpen);
-      btn.setAttribute('aria-expanded', String(!isOpen));
-    });
+/* light / dark toggle */
+const themeBtn=document.getElementById('themeBtn'),root=document.documentElement;
+function paintTheme(){
+  const light=root.dataset.theme==='light';
+  themeBtn.textContent=light?'☾':'☀';
+  themeBtn.setAttribute('aria-label',light?'Switch to dark mode':'Switch to light mode');
+  themeBtn.title=light?'Dark mode':'Light mode';
+}
+themeBtn.addEventListener('click',()=>{
+  const next=root.dataset.theme==='light'?'dark':'light';
+  root.dataset.theme=next;
+  try{localStorage.setItem('theme',next)}catch(e){}
+  paintTheme();
+});
+paintTheme();
+
+/* active tab follows scroll */
+const tabsEl=document.getElementById('tabs'),tabs=$('.tab');
+function syncTab(){
+  let cur=null;
+  $('.section').forEach(s=>{if(!s.hidden&&s.getBoundingClientRect().top<=120)cur=s.id});
+  if(innerHeight+scrollY>=document.body.scrollHeight-4)cur='more';
+  tabs.forEach(t=>{
+    const on=t.getAttribute('href')==='#'+cur;
+    if(on&&!t.classList.contains('active'))tabsEl.scrollTo({left:t.offsetLeft-tabsEl.clientWidth/2+t.clientWidth/2,behavior:'smooth'});
+    t.classList.toggle('active',on);
   });
+}
+addEventListener('scroll',syncTab,{passive:true});syncTab();
 </script>
-
 </body>
 </html>
